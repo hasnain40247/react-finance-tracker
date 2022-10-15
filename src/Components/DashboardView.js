@@ -1,7 +1,4 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { HiUserCircle } from "react-icons/hi2";
-import { useFonts } from "expo-font";
 import { useState } from "react";
 
 const DashboardView=({label,amount,reverse})=>{
@@ -48,7 +45,7 @@ const styles=StyleSheet.create({
     
       },
       text:{
-      fontSize:"1.6rem",
+      fontSize: 30,
       fontWeight:"700", 
       color:"#626058"
       },
