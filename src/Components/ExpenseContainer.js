@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
 import TypeTile from "./TypeTile";
-import 'intl';
-import 'intl/locale-data/jsonp/en-ZA'
+import "intl";
+import "intl/locale-data/jsonp/en-ZA";
 
-
-
-const ExpenseContainer = ({ date, expenseentries, handleShowComponent }) => {
+const ExpenseContainer = ({ date, expenseentries, handleShowComponent,objectid }) => {
   const [formated, setFormat] = useState(
     new Intl.DateTimeFormat("en-GB", {
       year: "numeric",
       month: "long",
       day: "2-digit",
-    }).format(new Date())
+    }).format(date)
   );
   useEffect(() => {
     let todaysDate = new Date();
@@ -29,17 +27,13 @@ const ExpenseContainer = ({ date, expenseentries, handleShowComponent }) => {
     <View style={styles.expensecontainer}>
       <Text style={styles.fontstyle}>{formated}</Text>
       <FlatList
-      scrollEnabled={false}
+        extraData={expenseentries}
+        scrollEnabled={false}
         data={expenseentries}
         keyExtractor={(item) => item.id}
-
         renderItem={({ item }) => (
           <TypeTile
-            type={item.type}
-            date={formated}
-            label={item.key}
-            amount={item.amount.toString()}
-            id={item.id}
+            object={{ item, date: formated,id:objectid, type: item.type }}
             handleShowComponent={handleShowComponent}
           />
         )}
@@ -60,7 +54,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
     color: "#66665e",
     alignSelf: "center",
-    fontSize:20
+    fontSize: 20,
   },
 });
 

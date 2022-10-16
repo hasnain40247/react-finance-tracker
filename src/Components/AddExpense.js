@@ -3,6 +3,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 const AddExpense=({handleShowComponent})=>{
+  
 return <>
       <TouchableOpacity onPress={()=>handleShowComponent({type:"input"})}
         style={styles.floatbutton}

@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { StyleSheet, TextInput } from "react-native";
 
-const InputTextField = ({label}) => {
+const InputTextField = ({label,value, handleOnChange}) => {
     const [onfocus,setFocus]=useState(false)
   return (
     <TextInput
+    value={value}
+    keyboardType= {label==="Amount"? "numeric":"default"}
+  selectTextOnFocus={label==="Date"? false:true}
+  editable={label==="Date"? false:true}
+    onChangeText={handleOnChange}
     onFocus={()=> setFocus(true)}
     onBlur={()=>setFocus(false)}
       cursorColor={"#ffc404"}

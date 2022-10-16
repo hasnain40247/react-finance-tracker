@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { NumericFormat } from 'react-number-format';
+
 import {
   Dimensions,
   FlatList,
@@ -11,33 +13,41 @@ import {
 } from "react-native";
 import BottomSheet from "./BottomSheet";
 
-const TypeTile = ({ type, label, amount, handleShowComponent, id, date }) => {
+const TypeTile = ({ object, handleShowComponent }) => {
+  console.log(object);
   return (
-    <TouchableWithoutFeedback
-      onPress={() => handleShowComponent({ type, label, amount, id, date })}
-    >
+    <TouchableWithoutFeedback onPress={() => handleShowComponent(object)}>
       <View style={[styles.typetile, styles.elevation]}>
         <Text
           style={[
             styles.fontstyle,
             {
-              fontWeight: type === "Expense" ? "600" : "bold",
+              fontWeight: object.item.type === "Expense" ? "600" : "bold",
             },
           ]}
         >
-          {label}
+          {object.item.key}
         </Text>
-        <Text
-          style={[
-            styles.fontstyle,
-            {
-              color: type === "Expense" ? "#8F284F" : "#288F68",
-              fontWeight: type === "Expense" ? "600" : "bold",
-            },
-          ]}
-        >
-          ${amount}
-        </Text>
+
+        <NumericFormat
+          value={object.item.amount}
+          displayType="text"
+          thousandSeparator
+          prefix="$"
+          renderText={(value) => (
+            <Text
+              style={[
+                styles.fontstyle,
+                {
+                  color: object.item.type === "Expense" ? "#8F284F" : "#288F68",
+                  fontWeight: object.item.type === "Expense" ? "600" : "bold",
+                },
+              ]}
+            >
+              {value}
+            </Text>
+          )}
+        />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -60,10 +70,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   elevation: {
-    elevation: 10,
+    elevation: 4,
     shadowColor: "#171717",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
     shadowRadius: 5,
   },
   fontstyle: {

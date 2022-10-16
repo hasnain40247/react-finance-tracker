@@ -2,18 +2,18 @@ import {
   Dimensions,
   StyleSheet,
   Text,
-  TextInput,
-  Touchable,
   TouchableOpacity,
   View,
   Animated,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import InputTextField from "./InputText";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ToggleTypeButton from "./ToggleTypeButton";
 import ActionButton from "./ActionButton";
-const BottomSheet = ({ handleShowComponent, detail }) => {
+import InputSection from "./InputSection";
+import DetailSection from "./DetailSection";
+const BottomSheet = ({ detail }) => {
   console.log("FROM BOTTOM SHEET");
   console.log(detail);
   const [isActive, setActive] = useState("Income");
@@ -28,7 +28,6 @@ const BottomSheet = ({ handleShowComponent, detail }) => {
     Animated.timing(translation, {
       toValue: Dimensions.get("screen").height,
       useNativeDriver: true,
-      duration:700
     }).start();
   };
   useEffect(() => {
@@ -38,8 +37,6 @@ const BottomSheet = ({ handleShowComponent, detail }) => {
     Animated.timing(translation, {
       toValue: -Dimensions.get("screen").height,
       useNativeDriver: true,
-      duration:700
-
     }).start();
   }, [detail]);
   return (
@@ -52,68 +49,13 @@ const BottomSheet = ({ handleShowComponent, detail }) => {
     >
       <View style={styles.drawerview}>
         {detail["type"] === "input" ? (
-          <>
-            <View style={styles.titleheader}>
-              <Text style={styles.labeltext}>Add Income/Expense</Text>
-
-              <TouchableOpacity
-                onPress={function () {
-                  handleAnimation();
-                }}
-              >
-                <Feather name="x" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
-            <ToggleTypeButton handleToggle={handleToggle} isActive={isActive} />
-            <InputTextField label={"Amount"} />
-            <InputTextField label={"Description"} />
-            <InputTextField label={"Date"} />
-            <ActionButton label={"Save"} />
-          </>
+          <InputSection
+            handleAnimation={handleAnimation}
+            handleToggle={handleToggle}
+            isActive={isActive}
+          />
         ) : (
-          <>
-            <View style={styles.titleheader}>
-              <Text style={styles.labeltext}>{detail && detail["type"]}</Text>
-
-              <TouchableOpacity
-                onPress={function () {
-                  handleAnimation();
-                }}
-              >
-                <Feather name="x" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
-            <Text
-              style={[
-                styles.labeltext,
-                {
-                  fontSize: 60,
-                  marginTop: 60,
-                  marginBottom: 60,
-                  fontWeight: "bold",
-                  color: detail["type"] === "Expense" ? "#8F284F" : "#288F68",
-                },
-              ]}
-            >
-              ${detail && detail["amount"]}
-            </Text>
-            <View
-              style={{
-                marginTop: 10,
-                marginBottom: 10,
-              }}
-            >
-              <Text style={[styles.labeltext, { color: "#66665e" }]}>
-                {detail && detail["label"]}
-              </Text>
-              <Text style={[styles.labeltext, { color: "#66665e" }]}>
-                {detail && detail["date"]}
-              </Text>
-            </View>
-
-            <ActionButton label={"Edit"} />
-            <ActionButton label={"Delete"} />
-          </>
+          <DetailSection handleAnimation={handleAnimation} detail={detail} />
         )}
       </View>
     </Animated.View>
@@ -162,12 +104,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "stretch",
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
   },
   labeltext: {
     fontSize: 20,
-    marginLeft: "auto",
-    marginRight: "auto",
+
+    fontWeight: "bold",
     fontFamily: "Poppins-Regular",
   },
 });

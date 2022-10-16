@@ -1,8 +1,8 @@
 import { StyleSheet, TouchableOpacity, Text } from "react-native"
 
-const ActionButton=({label})=>{
+const ActionButton=({label, action})=>{
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>action()}>
         <Text style={styles.savebuttontext}>{label}</Text>
       </TouchableOpacity>
     )
