@@ -26,10 +26,15 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      
+      "package": "com.hasnain40247.expenseTracker"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0f83954c-44ad-4615-a855-424600b59631"
+      }
     }
   }
 }
