@@ -3,8 +3,7 @@ import InputTextField from "./InputText";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useState } from "react";
 
-
-const DatePickerInput = ({date,setDate}) => {
+const DatePickerInput = ({ date, setDate }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   return (

@@ -14,15 +14,10 @@ import ActionButton from "./ActionButton";
 import InputSection from "./InputSection";
 import DetailSection from "./DetailSection";
 const BottomSheet = ({ detail }) => {
-  console.log("FROM BOTTOM SHEET");
-  console.log(detail);
-  const [isActive, setActive] = useState("Income");
   const [close, setClose] = useState(false);
-  const translation = useRef(new Animated.Value(0)).current;
+  const [editable, setEdit] = useState(false);
 
-  const handleToggle = (type) => {
-    setActive(type);
-  };
+  const translation = useRef(new Animated.Value(0)).current;
 
   const handleAnimation = () => {
     Animated.timing(translation, {
@@ -31,7 +26,6 @@ const BottomSheet = ({ detail }) => {
     }).start();
   };
   useEffect(() => {
-    console.log("HELLO from useEffect");
     setClose(false);
 
     Animated.timing(translation, {
@@ -49,13 +43,20 @@ const BottomSheet = ({ detail }) => {
     >
       <View style={styles.drawerview}>
         {detail["type"] === "input" ? (
+          <InputSection handleAnimation={handleAnimation} />
+        ) : editable ? (
           <InputSection
             handleAnimation={handleAnimation}
-            handleToggle={handleToggle}
-            isActive={isActive}
+            setEdit={() => setEdit(false)}
+            editable
+            detail={detail}
           />
         ) : (
-          <DetailSection handleAnimation={handleAnimation} detail={detail} />
+          <DetailSection
+            handleAnimation={handleAnimation}
+            detail={detail}
+            setEdit={() => setEdit(true)}
+          />
         )}
       </View>
     </Animated.View>

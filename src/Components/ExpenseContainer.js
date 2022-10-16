@@ -4,7 +4,12 @@ import TypeTile from "./TypeTile";
 import "intl";
 import "intl/locale-data/jsonp/en-ZA";
 
-const ExpenseContainer = ({ date, expenseentries, handleShowComponent,objectid }) => {
+const ExpenseContainer = ({
+  date,
+  expenseentries,
+  handleShowComponent,
+  objectid,
+}) => {
   const [formated, setFormat] = useState(
     new Intl.DateTimeFormat("en-GB", {
       year: "numeric",
@@ -33,7 +38,13 @@ const ExpenseContainer = ({ date, expenseentries, handleShowComponent,objectid }
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TypeTile
-            object={{ item, date: formated,id:objectid, type: item.type }}
+            object={{
+              item,
+              date: formated,
+              dateObj: date,
+              id: objectid,
+              type: item.type,
+            }}
             handleShowComponent={handleShowComponent}
           />
         )}

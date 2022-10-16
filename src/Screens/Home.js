@@ -19,20 +19,19 @@ import { Context } from "../Utilities/Context/expenseContext";
 let customFonts = {
   "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
 };
-export const AppBarTitle=({title})=>{
+export const AppBarTitle = ({ title }) => {
   const [isLoaded] = useFonts(customFonts);
   if (!isLoaded) {
-<Text style={{color:"white", fontWeight:"bold"}}>TrackIt</Text>
-  }else{
-   return <Text style={styles.apptitle}>{title}</Text>
-
+    <Text style={{ color: "white", fontWeight: "bold" }}>TrackIt</Text>;
+  } else {
+    return <Text style={styles.apptitle}>{title}</Text>;
   }
-}
+};
 const Home = () => {
   const [isLoaded] = useFonts(customFonts);
   const [show, setShow] = useState(false);
   const [detail, setDetail] = useState("");
-  const {state}=useContext(Context)
+  const { state } = useContext(Context);
 
   const handleShowComponent = useCallback((details) => {
     setShow(!show);
@@ -55,18 +54,18 @@ const Home = () => {
     );
   }
   return (
-    <SafeAreaView style={{ flex: 1}}>
-
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.body}>
         <DashboardCard />
         <View style={styles.expenselist}>
           <FlatList
-          extraData={state}
-          data={state.sort(function(a,b) {
-            return  new Date(b.date.toDateString())-new Date(a.date.toDateString()) 
-
-            
-          })}
+            extraData={state}
+            data={state.sort(function (a, b) {
+              return (
+                new Date(b.date.toDateString()) -
+                new Date(a.date.toDateString())
+              );
+            })}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (

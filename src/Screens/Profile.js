@@ -7,17 +7,14 @@ let customFonts = {
   "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
 };
 const Profile = () => {
-    const [person,setPerson]=useState("")
-    const [addr,setAddr]=useState("")
+  const [person, setPerson] = useState("");
+  const [addr, setAddr] = useState("");
 
-    
   const [isLoaded] = useFonts(customFonts);
-  useEffect(()=>{
-setPerson(sampleProfileData[0])
-setAddr(sampleProfileData[0].address)
-
-  },[])
-
+  useEffect(() => {
+    setPerson(sampleProfileData[0]);
+    setAddr(sampleProfileData[0].address);
+  }, []);
 
   if (isLoaded) {
     return (
@@ -27,34 +24,27 @@ setAddr(sampleProfileData[0].address)
           style={{ height: 200, width: 200, borderRadius: 200 / 2 }}
         />
         <Text style={styles.fontstyle}>{person.name}</Text>
-        <Text style={[styles.fontstyle, styles.email]}>
-          {person.email}
-        </Text>
+        <Text style={[styles.fontstyle, styles.email]}>{person.email}</Text>
 
-     <View style={{
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"center"
-     }}>
-     <Text style={[styles.address]}>
-        {addr.street}
-      </Text>
-      <Text style={[styles.address]}>
-        ,{addr.suite},
-      </Text>
-      <Text style={[styles.address]}>
-        {addr.city}
-      </Text>
-     </View>
-       
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Text style={[styles.address]}>{addr.street}</Text>
+          <Text style={[styles.address]}>,{addr.suite},</Text>
+          <Text style={[styles.address]}>{addr.city}</Text>
+        </View>
       </SafeAreaView>
     );
   }
 };
 const styles = StyleSheet.create({
-    address:{
-        color:"#787878"
-    },
+  address: {
+    color: "#787878",
+  },
   container: {
     flex: 1,
     backgroundColor: "white",
@@ -70,7 +60,7 @@ const styles = StyleSheet.create({
   },
   email: {
     fontSize: 20,
-    color:"#787878"
+    color: "#787878",
   },
 });
 export default Profile;

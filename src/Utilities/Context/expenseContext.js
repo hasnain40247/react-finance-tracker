@@ -5,12 +5,9 @@ const expenseReducer = (state, action) => {
   switch (action.type) {
     case "addEntry": {
       let flag = 0;
-      console.log("Helo reducer");
+
       state.map((e) => {
-
         if (e.date.toDateString() === action.payload.date.toDateString()) {
-        
-
           e.expenseentries.push(action.payload.entry);
           flag = 1;
         }
@@ -18,7 +15,6 @@ const expenseReducer = (state, action) => {
       if (flag === 1) {
         return [...state];
       } else {
-
         return [
           ...state,
           {
@@ -29,6 +25,7 @@ const expenseReducer = (state, action) => {
         ];
       }
     }
+
     case "deleteEntry": {
       const arr = state.filter(
         (object) => object.id === action.payload.objectid
@@ -46,9 +43,39 @@ const expenseReducer = (state, action) => {
         state = state.filter((object) => object.id != action.payload.objectid);
       }
 
-    
-
       return [...state];
+    }
+    case "editEntry": {
+      let arr = state;
+      state.map((e) => {
+        e.expenseentries.map((item, index) => {
+          if (item.id === action.payload.entry.id) {
+            e.expenseentries.splice(index, 1);
+          }
+        });
+      });
+
+      let flag = 0;
+
+      state.map((e) => {
+        if (e.date.toDateString() === action.payload.date.toDateString()) {
+          e.expenseentries.push(action.payload.entry);
+          flag = 1;
+        }
+      });
+
+      if (flag === 1) {
+        return [...state];
+      } else {
+        return [
+          ...state,
+          {
+            id: uuid(),
+            date: action.payload.date,
+            expenseentries: [action.payload.entry],
+          },
+        ];
+      }
     }
     default:
       return state;
@@ -67,6 +94,19 @@ const addEntry = (dispatch) => {
   };
 };
 
+const editEntry = (dispatch) => {
+  return (expenseObject, date) => {
+    let editedEntry = {
+      id: expenseObject.id,
+      amount: parseInt(expenseObject.amount),
+      key: expenseObject.key,
+      type: expenseObject.type,
+    };
+
+    dispatch({ type: "editEntry", payload: { date, entry: editedEntry } });
+  };
+};
+
 const deleteEntry = (dispatch) => {
   return (entryid, objectid) => {
     dispatch({ type: "deleteEntry", payload: { entryid, objectid } });
@@ -75,7 +115,7 @@ const deleteEntry = (dispatch) => {
 
 export const { Context, Provider } = createDataContext(
   expenseReducer,
-  { addEntry, deleteEntry },
+  { addEntry, deleteEntry, editEntry },
   [
     {
       id: "1000",

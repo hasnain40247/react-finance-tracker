@@ -49,6 +49,5 @@ const styles = StyleSheet.create({
   typebutton: {
     padding: 20,
   },
-
 });
 export default ToggleTypeButton;

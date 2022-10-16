@@ -4,13 +4,13 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Context } from "../Utilities/Context/expenseContext";
 import ActionButton from "./ActionButton";
 
-const DetailSection = ({handleAnimation, detail}) => {
-const {deleteEntry}=useContext(Context)
+const DetailSection = ({ handleAnimation, detail, setEdit }) => {
+  const { deleteEntry } = useContext(Context);
 
   return (
     <>
       <View style={styles.titleheader}>
-        <View/>
+        <View />
         <Text style={styles.labeltext}>{detail && detail.item.type}</Text>
 
         <TouchableOpacity
@@ -39,10 +39,10 @@ const {deleteEntry}=useContext(Context)
         style={{
           marginTop: 10,
           marginBottom: 10,
-          display:"flex",
-          flexDirection:"column",
-          alignItems:"center",
-          justifyContent:"center"
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <Text style={[styles.labeltext, { color: "#66665e" }]}>
@@ -53,35 +53,33 @@ const {deleteEntry}=useContext(Context)
         </Text>
       </View>
 
-      <ActionButton label={"Edit"}  action={()=>{
-        
-      }} />
-      <ActionButton label={"Delete"} action={()=>{
-        console.log("Delete pressed");
-        console.log(detail);
-        deleteEntry(detail.item.id, detail.id)
-        handleAnimation()
-      }} />
+      <ActionButton label={"Edit"} action={setEdit} />
+      <ActionButton
+        label={"Delete"}
+        action={() => {
+          deleteEntry(detail.item.id, detail.id);
+          handleAnimation();
+        }}
+      />
     </>
   );
 };
 
+const styles = StyleSheet.create({
+  titleheader: {
+    display: "flex",
+    marginBottom: 20,
 
-const styles=StyleSheet.create({
-    titleheader: {
-        display: "flex",
-        marginBottom: 20,
-    
-        flexDirection: "row",
-        alignSelf: "stretch",
-        alignItems: "center",
-        justifyContent: "space-between",
-      },
-      labeltext: {
-        fontSize: 20,
-    
-        fontWeight: "bold",
-        fontFamily: "Poppins-Regular",
-      },
-})
+    flexDirection: "row",
+    alignSelf: "stretch",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  labeltext: {
+    fontSize: 20,
+
+    fontWeight: "bold",
+    fontFamily: "Poppins-Regular",
+  },
+});
 export default DetailSection;

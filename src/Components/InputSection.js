@@ -14,31 +14,47 @@ import ToggleTypeButton from "./ToggleTypeButton";
 import DatePickerInput from "./DatePickerInput";
 import { Context as ExpenseContext } from "../Utilities/Context/expenseContext";
 
-const InputSection = ({ handleAnimation, handleToggle, isActive }) => {
-  const [amount, setAmount] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState(new Date());
-  const { addEntry } = useContext(ExpenseContext);
-  const { state } = useContext(ExpenseContext);
+const InputSection = ({ handleAnimation, setEdit, editable, detail }) => {
+  const [isActive, setActive] = useState(
+    editable ? detail["item"]["type"] : "Income"
+  );
 
-  console.log("STATE");
-  console.log(state);
+  const [title, setTitle] = useState(editable ? "Edit" : "Add");
+  const [amount, setAmount] = useState(
+    editable ? detail["item"]["amount"].toString() : ""
+  );
+  const [description, setDescription] = useState(
+    editable ? detail["item"]["key"].toString() : ""
+  );
+  const [date, setDate] = useState(editable ? detail["dateObj"] : new Date());
+  const { addEntry, editEntry } = useContext(ExpenseContext);
+  const { state } = useContext(ExpenseContext);
 
   return (
     <>
       <View style={styles.titleheader}>
         <View />
-        <Text style={styles.labeltext}>Add Income/Expense</Text>
+        <Text style={styles.labeltext}>{title} Income/Expense</Text>
 
         <TouchableOpacity
           onPress={function () {
             handleAnimation();
+            setAmount("");
+            setDescription("");
+            setDate(new Date());
+            if (editable) {
+              setEdit();
+            }
+            Keyboard.dismiss();
           }}
         >
           <Feather name="x" size={24} color="black" />
         </TouchableOpacity>
       </View>
-      <ToggleTypeButton handleToggle={handleToggle} isActive={isActive} />
+      <ToggleTypeButton
+        handleToggle={(type) => setActive(type)}
+        isActive={isActive}
+      />
       <InputTextField
         label={"Amount"}
         value={amount}
@@ -53,11 +69,25 @@ const InputSection = ({ handleAnimation, handleToggle, isActive }) => {
       <ActionButton
         label={"Save"}
         action={() => {
-          addEntry({ amount, key: description, type: isActive }, date);
+          if (editable) {
+            editEntry(
+              {
+                amount,
+                key: description,
+                type: isActive,
+                id: detail["item"]["id"],
+              },
+              date
+            );
+            setEdit();
+          } else {
+            addEntry({ amount, key: description, type: isActive }, date);
+          }
+          handleAnimation();
+
           setAmount("");
           setDescription("");
           setDate(new Date());
-          handleAnimation();
           Keyboard.dismiss();
         }}
       />

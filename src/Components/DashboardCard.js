@@ -4,31 +4,30 @@ import { Context } from "../Utilities/Context/expenseContext";
 import DashboardView from "./DashboardView";
 
 const DashboardCard = () => {
-  const {state}= useContext(Context)
-  const [balance,setBalance]=useState(0)
-  const [expense,setExpense]=useState(0)
-  const [income,setIncome]=useState(0)
+  const { state } = useContext(Context);
+  const [balance, setBalance] = useState(0);
+  const [expense, setExpense] = useState(0);
+  const [income, setIncome] = useState(0);
 
-  useEffect(()=>{
-    let insum=0
-    let exsum=0
-state.map((object)=>{
-  object.expenseentries.map((entries)=>{
-    if(entries.type==="Income"){
-      insum+=entries.amount
-    }else{
-     exsum+=entries.amount
-      
-    }
-  })
+  useEffect(() => {
+    let insum = 0;
+    let exsum = 0;
+    state.map((object) => {
+      object.expenseentries.map((entries) => {
+        if (entries.type === "Income") {
+          insum += entries.amount;
+        } else {
+          exsum += entries.amount;
+        }
+      });
 
- if(state.length>0){
-  setIncome(insum)
-  setExpense(exsum)
-  setBalance(insum-exsum)
- }
-})
-  },[state])
+      if (state.length > 0) {
+        setIncome(insum);
+        setExpense(exsum);
+        setBalance(insum - exsum);
+      }
+    });
+  }, [state]);
   return (
     <View style={styles.dashboard}>
       <View style={[styles.dashboardCard, styles.elevation]}>
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     alignSelf: "stretch",
     padding: 8,
-    flex:1,
+    flex: 1,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -74,7 +73,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
   },
   border: {
-    alignSelf:"stretch",
+    alignSelf: "stretch",
     borderLeftWidth: 2,
     borderColor: "#e5e5e5",
   },

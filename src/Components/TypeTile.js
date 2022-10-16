@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NumericFormat } from 'react-number-format';
+import { NumericFormat } from "react-number-format";
 
 import {
   Dimensions,
@@ -14,7 +14,6 @@ import {
 import BottomSheet from "./BottomSheet";
 
 const TypeTile = ({ object, handleShowComponent }) => {
-  console.log(object);
   return (
     <TouchableWithoutFeedback onPress={() => handleShowComponent(object)}>
       <View style={[styles.typetile, styles.elevation]}>
